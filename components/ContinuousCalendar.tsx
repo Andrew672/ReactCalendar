@@ -2,8 +2,8 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
 interface ContinuousCalendarProps {
   onClick?: (_day:number, _month: number, _year: number) => void;
@@ -76,7 +76,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
 
     const daysInYear = (): { month: number; day: number }[] => {
       const daysInYear = [];
-      const startDayOfWeek = new Date(year, 0, 1).getDay();
+      const startDayOfWeek = (new Date(year, 0, 1).getDay() + 6) % 7;
 
       if (startDayOfWeek < 6) {
         for (let i = 0; i < startDayOfWeek; i++) {

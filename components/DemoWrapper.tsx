@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useSnack } from "@/app/SnackProvider";
 import { ContinuousCalendar } from "@/components/ContinuousCalendar";
 
-const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
 export default function DemoWrapper() {
   const { createSnack } = useSnack();
