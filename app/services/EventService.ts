@@ -9,7 +9,7 @@ export interface EventData {
     color: string;
 }
 export const EventsService = {
-    async createEvent(data: EventData): Promise<void> {
+    async createEvent(data: EventData): Promise<string> {
         const response = await fetch(API_BASE_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -17,8 +17,11 @@ export const EventsService = {
         });
 
         if (!response.ok) {
-            throw new Error('Erreur lors de la création de l’événement');
+            const error = await response.text();
+            throw new Error(`Erreur lors de la création de l’événement : ${error}`);
         }
+        const json = await response.json();
+        return json.filename;
     },
 
     async updateEvent(filename: string, data: EventData): Promise<void> {

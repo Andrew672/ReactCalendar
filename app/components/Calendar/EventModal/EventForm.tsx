@@ -36,6 +36,7 @@ export const EventForm: React.FC<EventFormProps> = ({
     const [selectedIcon, setSelectedIcon] = useState('calendar');
     const [showIconModal, setShowIconModal] = useState(false);
     const [title, setTitle] = useState('');
+    const [filename, setFilename] = useState('');
     const [color, setColor] = useState('#3B82F6');
     const [start, setStart] = useState(defaultDates?.start || '');
     const [end, setEnd] = useState(defaultDates?.end || '');
@@ -75,16 +76,21 @@ export const EventForm: React.FC<EventFormProps> = ({
             description,
             icon: selectedIcon,
             color,
+            filename,
         };
 
         try {
+            let submittedData;
 
             if (isEditing && initialData?.filename) {
                 await EventsService.updateEvent(initialData.filename, eventData);
+                submittedData = { ...eventData, filename: initialData.filename }; // 💡 on conserve le filename
             } else {
-                await EventsService.createEvent(eventData);
+                const newFilename = await EventsService.createEvent(eventData);
+                submittedData = { ...eventData, filename: newFilename };
+                setFilename(newFilename);
             }
-            onSubmit?.(eventData);
+            onSubmit?.(submittedData);
             onClose();
             createSnack(message, 'success');
         } catch {
