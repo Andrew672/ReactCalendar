@@ -7,6 +7,9 @@ import { EventPreview } from '@/app/components/Calendar/EventModal/EventPreview'
 import { iconOptions } from '@/app/components/Calendar/EventModal/iconOptions';
 import { EventsService} from "@/app/services/EventService";
 import {ModalFooter} from "@/app/components/ui/ModalFooter";
+import { ColorPickerPreview } from '@/app/components/ui/ColorPickerPreview';
+
+
 
 interface EventFormProps {
     defaultDates?: { start: string; end: string };
@@ -169,13 +172,7 @@ export const EventForm: React.FC<EventFormProps> = ({
 
             <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Couleur</label>
-                <input
-                    name="color"
-                    type="color"
-                    value={color}
-                    onChange={(e) => setColor(e.target.value)}
-                    className="h-10 w-20 rounded-md border border-gray-300 p-1 cursor-pointer"
-                />
+                <ColorPickerPreview color={color} onChange={setColor} />
             </div>
 
             <EventPreview selectedIcon={selectedIcon} title={title} color={color} />

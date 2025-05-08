@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@uiw/react-color": "^2.5.4",
     "dav": "^1.8.0",
     "ical-generator": "^8.1.1",
     "lucide-react": "^0.507.0",
