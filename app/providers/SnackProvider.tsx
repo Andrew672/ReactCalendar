@@ -30,7 +30,7 @@ interface Snack {
     visible: boolean;
 }
 
-export const SnackProvider: React.FC<SnackProviderProps> = ({ children }) => {
+export const SnackProvider = (props: SnackProviderProps) => {
     const [snacks, setSnacks] = useState<Snack[]>([]);
 
     const createSnack = useCallback((message: any, variant: Variant) => {
@@ -53,7 +53,7 @@ export const SnackProvider: React.FC<SnackProviderProps> = ({ children }) => {
 
     return (
         <SnackContext.Provider value={{ createSnack }}>
-            {children}
+            {props.children}
             <div>
                 {snacks.map((snack) => (
                     <div

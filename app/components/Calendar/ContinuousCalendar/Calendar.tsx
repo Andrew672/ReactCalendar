@@ -7,7 +7,7 @@ import { EventPanel } from './EventPanel';
 import { YearGrid } from './YearGrid';
 import { EventModal } from '../EventModal/EventModal';
 import { CalendarDays, LucideIcon } from 'lucide-react';
-import { iconOptions } from '../CalendarDay/CalendarDay';
+import { iconOptions } from '@/app/components/Calendar/EventModal/iconOptions';
 import { useSnack } from '@/app/providers/SnackProvider';
 import { mapApiEventToCalendarEvent } from './mapApiEvent';
 import {EventsService} from "@/app/services/EventService";
@@ -28,7 +28,7 @@ interface ContinuousCalendarProps {
     onClick?: (_day: number, _month: number, _year: number) => void;
 }
 
-export const Calendar: React.FC<ContinuousCalendarProps> = ({ onClick }) => {
+export const Calendar = ( props : ContinuousCalendarProps) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState<{ day: number; month: number; year: number } | null>(null);
     const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -75,7 +75,7 @@ export const Calendar: React.FC<ContinuousCalendarProps> = ({ onClick }) => {
 
     const handleDayClick = (day: number, month: number, year: number) => {
         setSelectedDate({ day, month, year });
-        if (onClick) onClick(day, month, year);
+        if (props.onClick) props.onClick(day, month, year);
     };
 
     const handleEditEvent = (event: CalendarEvent & { uid?: string }) => {
@@ -158,6 +158,7 @@ export const Calendar: React.FC<ContinuousCalendarProps> = ({ onClick }) => {
                             setYear={setYear}
                             monthOptions={monthOptions}
                             scrollToToday={() => scrollToDay(today.getMonth(), today.getDate())}
+                            scrollToMonth={(month: number) => scrollToDay(month, 1)}
                             openModal={() => setModalOpen(true)}
                         />
                         <div className="grid grid-cols-7 text-center text-slate-500 font-semibold border-b border-slate-200 py-2">

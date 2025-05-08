@@ -26,37 +26,32 @@ interface EventFormProps {
     onSubmit?: (_data: any) => void;
 }
 
-export const EventForm: React.FC<EventFormProps> = ({
-                                                        defaultDates,
-                                                        initialData,
-                                                        onClose,
-                                                        onSubmit,
-                                                    }) => {
+export const EventForm = (props: EventFormProps) => {
     const { createSnack } = useSnack();
     const [selectedIcon, setSelectedIcon] = useState('calendar');
     const [showIconModal, setShowIconModal] = useState(false);
     const [title, setTitle] = useState('');
     const [filename, setFilename] = useState('');
     const [color, setColor] = useState('#3B82F6');
-    const [start, setStart] = useState(defaultDates?.start || '');
-    const [end, setEnd] = useState(defaultDates?.end || '');
+    const [start, setStart] = useState(props.defaultDates?.start || '');
+    const [end, setEnd] = useState(props.defaultDates?.end || '');
     const [description, setDescription] = useState('');
 
     useEffect(() => {
-        if (initialData) {
-            setTitle(initialData.title || '');
-            const iconKey = iconOptions.find(opt => opt.icon === initialData.icon)?.key;
+        if (props.initialData) {
+            setTitle(props.initialData.title || '');
+            const iconKey = iconOptions.find(opt => opt.icon === props.initialData?.icon)?.key;
             setSelectedIcon(iconKey || 'calendar');
-            setColor(initialData.color || '#3B82F6');
-            setStart(defaultDates?.start || initialData.start || '');
-            setEnd(defaultDates?.end || initialData.end || '');
-            setDescription(initialData.description || '');
+            setColor(props.initialData.color || '#3B82F6');
+            setStart(props.defaultDates?.start || props.initialData.start || '');
+            setEnd(props.defaultDates?.end || props.initialData.end || '');
+            setDescription(props.initialData.description || '');
         }
-    }, [initialData, defaultDates]);
+    }, [props.initialData, props.defaultDates]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const isEditing = !!initialData;
+        const isEditing = !!props.initialData;
 
         const startDate = new Date(start);
         const endDate = new Date(end);
@@ -82,16 +77,16 @@ export const EventForm: React.FC<EventFormProps> = ({
         try {
             let submittedData;
 
-            if (isEditing && initialData?.filename) {
-                await EventsService.updateEvent(initialData.filename, eventData);
-                submittedData = { ...eventData, filename: initialData.filename }; // 💡 on conserve le filename
+            if (isEditing && props.initialData?.filename) {
+                await EventsService.updateEvent(props.initialData.filename, eventData);
+                submittedData = { ...eventData, filename: props.initialData.filename }; // 💡 on conserve le filename
             } else {
                 const newFilename = await EventsService.createEvent(eventData);
                 submittedData = { ...eventData, filename: newFilename };
                 setFilename(newFilename);
             }
-            onSubmit?.(submittedData);
-            onClose();
+            props.onSubmit?.(submittedData);
+            props.onClose();
             createSnack(message, 'success');
         } catch {
             createSnack("Erreur lors de la création de l'événement", 'error');
@@ -184,8 +179,8 @@ export const EventForm: React.FC<EventFormProps> = ({
             <EventPreview selectedIcon={selectedIcon} title={title} color={color} />
 
             <ModalFooter
-                onClose={onClose}
-                submitLabel={initialData ? 'Modifier l’événement' : 'Créer l’événement'}
+                onClose={props.onClose}
+                submitLabel={props.initialData ? 'Modifier l’événement' : 'Créer l’événement'}
             />
         </form>
     );

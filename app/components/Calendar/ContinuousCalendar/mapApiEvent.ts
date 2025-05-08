@@ -1,6 +1,6 @@
 
 import { CalendarDays } from 'lucide-react';
-import { iconOptions } from '../CalendarDay/CalendarDay';
+import { iconOptions } from '@/app/components/Calendar/EventModal/iconOptions';
 import type { CalendarEvent } from './Calendar';
 
 export function mapApiEventToCalendarEvent(apiEvent: any): CalendarEvent {

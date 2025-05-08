@@ -21,29 +21,23 @@ interface EventModalProps {
     };
 }
 
-export const EventModal: React.FC<EventModalProps> = ({
-                                                          isOpen,
-                                                          onClose,
-                                                          onSubmit,
-                                                          defaultDates,
-                                                          initialData,
-                                                      }) => {
-    if (!isOpen) return null;
+export const EventModal = (props: EventModalProps) => {
+    if (!props.isOpen) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
             <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-xl">
                 <ModalHeader
-                    title={initialData ? 'Modifier un événement' : 'Créer un événement'}
+                    title={props.initialData ? 'Modifier un événement' : 'Créer un événement'}
                     icon={CalendarDays}
-                    onClose={onClose}
+                    onClose={props.onClose}
                 />
 
                 <EventForm
-                    defaultDates={defaultDates}
-                    initialData={initialData}
-                    onClose={onClose}
-                    onSubmit={onSubmit}
+                    defaultDates={props.defaultDates}
+                    initialData={props.initialData}
+                    onClose={props.onClose}
+                    onSubmit={props.onSubmit}
                 />
             </div>
         </div>

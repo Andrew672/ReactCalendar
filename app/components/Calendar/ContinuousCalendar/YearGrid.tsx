@@ -17,18 +17,10 @@ interface YearGridProps {
     dayRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
 }
 
-export const YearGrid: React.FC<YearGridProps> = ({
-                                                      calendarDays,
-                                                      year,
-                                                      today,
-                                                      events,
-                                                      onDayClick,
-                                                      onQuickAdd,
-                                                      dayRefs,
-                                                  }) => {
+export const YearGrid = (props: YearGridProps) => {
     const weeks = [];
-    for (let i = 0; i < calendarDays.length; i += 7) {
-        weeks.push(calendarDays.slice(i, i + 7));
+    for (let i = 0; i < props.calendarDays.length; i += 7) {
+        weeks.push(props.calendarDays.slice(i, i + 7));
     }
 
     return (
@@ -38,19 +30,19 @@ export const YearGrid: React.FC<YearGridProps> = ({
                     {week.map(({ month, day }, di) => {
                         const index = wi * 7 + di;
                         const isToday =
-                            today.getFullYear() === year &&
-                            today.getMonth() === month &&
-                            today.getDate() === day;
+                            props.today.getFullYear() === props.year &&
+                            props.today.getMonth() === month &&
+                            props.today.getDate() === day;
 
                         const isNewMonth =
-                            index === 0 || calendarDays[index - 1].month !== month;
+                            index === 0 || props.calendarDays[index - 1].month !== month;
 
-                        const dayEvents = events.filter((e) => {
+                        const dayEvents = props.events.filter((e) => {
                             const eventDate = new Date(e.start);
                             return (
                                 eventDate.getDate() === day &&
                                 eventDate.getMonth() === month &&
-                                eventDate.getFullYear() === year
+                                eventDate.getFullYear() === props.year
                             );
                         });
 
@@ -60,13 +52,13 @@ export const YearGrid: React.FC<YearGridProps> = ({
                                 index={index}
                                 day={day}
                                 month={month}
-                                year={year}
+                                year={props.year}
                                 isToday={isToday}
                                 isNewMonth={isNewMonth}
-                                onClick={onDayClick}
-                                dayRefCallback={(el) => (dayRefs.current[index] = el)}
+                                onClick={props.onDayClick}
+                                dayRefCallback={(el) => (props.dayRefs.current[index] = el)}
                                 events={dayEvents}
-                                onQuickAdd={onQuickAdd}
+                                onQuickAdd={props.onQuickAdd}
                             />
                         );
                     })}

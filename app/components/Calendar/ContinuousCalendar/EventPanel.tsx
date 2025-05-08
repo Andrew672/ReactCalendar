@@ -11,19 +11,13 @@ interface EventPanelProps {
     onClose: () => void;
 }
 
-export const EventPanel: React.FC<EventPanelProps> = ({
-                                                          selectedDate,
-                                                          events,
-                                                          onEdit,
-                                                          onDelete,
-                                                          onClose,
-                                                      }) => {
-    const filteredEvents = events.filter((e) => {
+export const EventPanel = (props: EventPanelProps) => {
+    const filteredEvents = props.events.filter((e) => {
         const d = new Date(e.start);
         return (
-            d.getDate() === selectedDate.day &&
-            d.getMonth() === selectedDate.month &&
-            d.getFullYear() === selectedDate.year
+            d.getDate() === props.selectedDate.day &&
+            d.getMonth() === props.selectedDate.month &&
+            d.getFullYear() === props.selectedDate.year
         );
     });
 
@@ -34,7 +28,7 @@ export const EventPanel: React.FC<EventPanelProps> = ({
     `}>
             {/* Fermer */}
             <button
-                onClick={onClose}
+                onClick={props.onClose}
                 className="absolute top-4 right-4 bg-white rounded-full shadow-md p-1 text-slate-500 hover:text-slate-700 z-10"
                 title="Fermer"
             >
@@ -45,7 +39,7 @@ export const EventPanel: React.FC<EventPanelProps> = ({
             <div className="mb-4 flex items-center gap-2 text-slate-800 font-semibold text-lg pr-10">
                 <Calendar className="text-blue-500 w-6 h-6" />
                 <span>
-          Événements du {new Date(selectedDate.year, selectedDate.month, selectedDate.day).toLocaleDateString('fr-FR', {
+          Événements du {new Date(props.selectedDate.year, props.selectedDate.month, props.selectedDate.day).toLocaleDateString('fr-FR', {
                     weekday: 'long',
                     day: 'numeric',
                     month: 'long',
@@ -60,8 +54,8 @@ export const EventPanel: React.FC<EventPanelProps> = ({
                     <EventItem
                         key={i}
                         event={event}
-                        onEdit={() => onEdit(event)}
-                        onDelete={() => onDelete(event)}
+                        onEdit={() => props.onEdit(event)}
+                        onDelete={() => props.onDelete(event)}
                     />
                 ))}
             </ul>

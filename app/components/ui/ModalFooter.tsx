@@ -7,11 +7,11 @@ interface ModalFooterProps {
     submitLabel: string;
 }
 
-export const ModalFooter: React.FC<ModalFooterProps> = ({ onClose, submitLabel }) => {
+export const ModalFooter = (props: ModalFooterProps) => {
     return (
         <div className="flex justify-end gap-3 pt-2">
-            <CloseButton onClick={onClose} />
-            <SubmitButton label={submitLabel} />
+            <CloseButton onClick={props.onClose} />
+            <SubmitButton label={props.submitLabel} />
         </div>
     );
 };
